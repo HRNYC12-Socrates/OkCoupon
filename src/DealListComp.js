@@ -1,5 +1,5 @@
 import React from 'react';
-import Coupon from './Coupon.jsx';
+import Coupon from './Coupon.js';
 
 const DealListComp = (props) => (
 	<div>

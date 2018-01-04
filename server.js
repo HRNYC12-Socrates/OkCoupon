@@ -37,7 +37,7 @@ app.get('/helper', (req, res) => {
 app.get('/arrayCoupons', (req, res) => {
   db.Coupons.findAll({where: {saved: 'null'}, limit: 10}).then((data) =>{
     res.body = data
-    res.status(200).send('tada!')
+    res.status(200).send(data)
   })
 })
 
@@ -53,6 +53,7 @@ app.get('/savedCoupons', (req, res) => {
   app.set('port', process.env.PORT || 3000)
 
   const server = app.listen(app.get('port'))
+  console.log(server)
   const host = server.address().address;
   const port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);

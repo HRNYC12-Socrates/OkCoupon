@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios'
-import DealList from './CouponListComp.jsx'
+// import DealList from './CouponListComp.js'
 
 class SavedDealsComp extends React.Component {
 	constructor(props) {

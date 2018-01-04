@@ -1,7 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './app.js';
+import Navigation from './route.js'
+import {
+  HashRouter as Router,
+  Route,
+  Link
+ } from 'react-router-dom';
+
 import axios from 'axios';
+
 
 class Main extends React.Component {
   constructor(props) {
@@ -18,9 +25,29 @@ class Main extends React.Component {
       index: 0
     }
     this.incrementIndex = this.incrementIndex.bind(this);
+    this.foo = this.foo.bind(this);
   }
 
+  foo(arg) {
+    this.setState({
+      coupons: arg
+    })
+  }
 
+  componentDidMount() {
+    axios.get('/helper')
+    .then(() => {
+      axios.get('/arrayCoupons').then((response) => {
+        console.log("before setting state again", this.state.coupons)
+        this.foo(response.data);
+        console.log("Coupons:",this.state.coupons);
+      })
+    })
+  }
+
+  componentDidUpdate() {
+    console.log('componenet is updating', this.state.coupons)
+  }
 
   incrementIndex() {
     this.state.index++;
@@ -29,35 +56,15 @@ class Main extends React.Component {
 
 
   render() {
+    console.log('how many times?', this.state.coupons)
     return (
-      <div className="container" styles={{"height": "100%", "width": "100%"}}>
-        <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="#">OkCoupon</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
-                <li className="nav-item active">
-                  <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Saved Coupons</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
-        <h4></h4>
-          <App coupon={this.state.coupons[this.state.index]} increment={this.incrementIndex} />
+    <div>
+      <div className="container">
+        <App Coupon={this.state.coupons[this.state.index]} Increment={this.incrementIndex} />
       </div>
+    </div>
     )
   }
 }
-document.addEventListener('DOMContentLoaded', function() {
-  ReactDOM.render(
-    React.createElement(Main),
-    document.getElementById('mount')
-  );
-});;
+
+export default Main
